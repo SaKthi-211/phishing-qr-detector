@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}History - CyberShield{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <h1>Scan History</h1>
+  <p class="subtitle">A record of every URL / QR scan performed so far.</p>
+</section>
+
+<section class="history-table-wrap">
+  {% if records %}
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Scanned Value</th>
+        <th>Verdict</th>
+        <th>Risk Score</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in records %}
+      <tr>
+        <td><span class="type-pill">{{ r.scan_type|upper }}</span></td>
+        <td class="truncate" title="{{ r.input_value }}">{{ r.input_value }}</td>
+        <td><span class="verdict-badge verdict-{{ r.verdict|lower }}">{{ r.verdict }}</span></td>
+        <td>{{ r.risk_score }}</td>
+        <td>{{ r.scanned_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty-state">No scans yet. Go try the URL Scan or QR Scan page!</p>
+  {% endif %}
+</section>
+
+{% endblock %}

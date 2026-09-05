@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}CyberShield - Phishing & QR Detector{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="shield-icon">&#128737;</span> CyberShield
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}" class="{{ 'active' if request.path == '/' else '' }}">URL Scan</a>
+      <a href="{{ url_for('qr_scan') }}" class="{{ 'active' if request.path == '/qr-scan' else '' }}">QR Scan</a>
+      <a href="{{ url_for('history') }}" class="{{ 'active' if request.path == '/history' else '' }}">History</a>
+    </div>
+  </nav>
+
+  <div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <p>CyberShield &mdash; Phishing URL &amp; Malicious QR Code Detection System &middot; ML + Heuristic Analysis</p>
+  </footer>
+</body>
+</html>

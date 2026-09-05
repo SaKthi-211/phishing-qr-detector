@@ -1,17 +1,30 @@
 {% extends "base.html" %}
-{% block title %}URL Scan - CyberShield{% endblock %}
+{% block title %}QR Scan - CyberShield{% endblock %}
 {% block content %}
 
 <section class="hero">
-  <h1>Phishing URL Detector</h1>
-  <p class="subtitle">Check how risky a URL is in real time, using a combined ML model + heuristic rule engine.</p>
+  <h1>Malicious QR Code Detector</h1>
+  <p class="subtitle">Upload a QR code image - we'll decode the embedded URL/data and analyze its phishing risk.</p>
 
-  <form method="POST" class="scan-form">
-    <input type="text" name="url" placeholder="e.g. http://paypal-verify-login.xyz/account" required
-           value="{{ result.url if result else '' }}">
-    <button type="submit" class="btn-primary">Scan URL</button>
+  <form method="POST" enctype="multipart/form-data" class="scan-form qr-form">
+    <input type="file" name="qr_image" accept=".png,.jpg,.jpeg,.bmp,.webp" required>
+    <button type="submit" class="btn-primary">Scan QR Code</button>
   </form>
 </section>
+
+{% if qr_error %}
+<section class="result-card verdict-phishing">
+  <h2>⚠️ Error</h2>
+  <p>{{ qr_error }}</p>
+</section>
+{% endif %}
+
+{% if decoded_payload %}
+<section class="decoded-box">
+  <h3>Decoded QR Payload</h3>
+  <code>{{ decoded_payload }}</code>
+</section>
+{% endif %}
 
 {% if result %}
 <section class="result-card verdict-{{ result.verdict|lower }}">
