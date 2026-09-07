@@ -8,3 +8,4 @@ opencv-python-headless==4.10.0.84
 Pillow==10.4.0
 Werkzeug==3.0.3
 gunicorn app:app
+python -m pip install --upgrade pip setuptools wheel
